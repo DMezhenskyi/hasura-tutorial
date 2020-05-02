@@ -1,0 +1,18 @@
+.content,
+main {
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.card {
+  margin: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-field {
+  display: block;
+}
