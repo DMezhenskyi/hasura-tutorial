@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "generate-types": "graphql-codegen --config codegen.yml"
   },
   "private": true,
   "dependencies": {
@@ -22,21 +23,22 @@
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
     "apollo-angular": "^1.9.1",
+    "apollo-angular-link-http": "^1.10.0",
+    "apollo-cache-inmemory": "^1.6.0",
+    "apollo-client": "^2.6.0",
+    "apollo-link": "^1.2.11",
+    "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2",
-    "apollo-angular-link-http": "^1.10.0",
-    "apollo-link": "^1.2.11",
-    "apollo-client": "^2.6.0",
-    "apollo-cache-inmemory": "^1.6.0",
-    "graphql-tag": "^2.10.0",
-    "graphql": "^14.6.0"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.0",
     "@angular/cli": "~9.1.0",
     "@angular/compiler-cli": "~9.1.0",
     "@angular/language-service": "~9.1.0",
+    "@graphql-codegen/cli": "1.13.5",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
@@ -51,6 +53,10 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "@graphql-codegen/typescript": "1.13.5",
+    "@graphql-codegen/typescript-operations": "1.13.5",
+    "@graphql-codegen/typescript-apollo-angular": "1.13.5",
+    "@graphql-codegen/introspection": "1.13.5"
   }
 }

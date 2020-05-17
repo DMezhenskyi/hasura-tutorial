@@ -1,59 +1,14 @@
+import { TasksQuery, TasksGQL, AddTaskGQL } from './../generated/graphql';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Apollo, QueryRef } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { QueryRef } from 'apollo-angular';
 import {
   FormGroup,
   FormBuilder,
   FormControl,
   Validators,
 } from '@angular/forms';
-
-interface Task {
-  uuid: string;
-  title: string;
-  description: string;
-  user: User;
-}
-
-interface User {
-  uuid: string;
-  displayName: string;
-}
-interface Response {
-  tasks: Task[];
-}
-const GET_TASKS = gql`
-  query Tasks {
-    tasks {
-      uuid
-      title
-      description
-      user {
-        fullName
-        uuid
-      }
-    }
-  }
-`;
-const ADD_TASK = gql`
-  mutation AddTask($authorId: uuid!, $description: String!, $title: name!) {
-    insert_tasks(
-      objects: { authorId: $authorId, description: $description, title: $title }
-    ) {
-      returning {
-        description
-        title
-        user {
-          fullName
-          uuid
-        }
-        uuid
-      }
-    }
-  }
-`;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -62,11 +17,15 @@ const ADD_TASK = gql`
 export class AppComponent implements OnInit {
   title = 'hasura-tutorial';
 
-  tasks$: Observable<Task[]>;
+  tasks$: Observable<TasksQuery['tasks']>;
   form: FormGroup;
-  queryRef: QueryRef<Response>;
+  queryRef: QueryRef<TasksQuery>;
 
-  constructor(private apollo: Apollo, private fb: FormBuilder) {}
+  constructor(
+    private tasksGQL: TasksGQL,
+    private fb: FormBuilder,
+    private addTaskGQL: AddTaskGQL
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -77,27 +36,20 @@ export class AppComponent implements OnInit {
         Validators.required
       ),
     });
-    this.queryRef = this.apollo.watchQuery<Response>({
-      query: GET_TASKS,
-    });
+    this.queryRef = this.tasksGQL.watch();
     this.tasks$ = this.queryRef.valueChanges.pipe(
       map((result) => result.data.tasks)
     );
   }
 
   onAddTask() {
-    this.apollo
-      .mutate({
-        mutation: ADD_TASK,
-        variables: this.form.value,
-      })
-      .subscribe(
-        () => {
-          this.form.controls.title.reset('');
-          this.form.controls.description.reset('');
-          this.queryRef.refetch();
-        },
-        (error) => console.error('Error: ', error)
-      );
+    this.addTaskGQL.mutate(this.form.value).subscribe(
+      () => {
+        this.form.controls.title.reset('');
+        this.form.controls.description.reset('');
+        this.queryRef.refetch();
+      },
+      (error) => console.error('Error: ', error)
+    );
   }
 }
