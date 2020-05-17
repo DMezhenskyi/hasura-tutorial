@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "hasura-tutorial",
+      "public": "dist/hasura-tutorial",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

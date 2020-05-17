@@ -1,34 +1,3 @@
 <main>
-  <form [formGroup]="form">
-    <mat-form-field class="form-field">
-      <input
-        matInput
-        formControlName="title"
-        type="text"
-        placeholder="Enter title"
-      />
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <textarea
-        matInput
-        formControlName="description"
-        placeholder="Enter Description..."
-      ></textarea>
-    </mat-form-field>
-    <button [disabled]="form.invalid" mat-stroked-button (click)="onAddTask()">
-      Submit
-    </button>
-  </form>
-
-  <h1>Tasks:</h1>
-  <section class="list">
-    <mat-card class="card" *ngFor="let task of tasks$ | async">
-      <mat-card-header>
-        <mat-card-title>{{ task.title }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>{{ task.description }}</p>
-      </mat-card-content>
-    </mat-card>
-  </section>
+  <router-outlet></router-outlet>
 </main>

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "hasura-demo-app": {
+      "hosting": {
+        "hasura-tutorial": [
+          "hasura-demo-app"
+        ]
+      }
+    }
+  }
+}

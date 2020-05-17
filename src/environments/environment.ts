@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyANMtYwSeS70XjBJ8p8GSX47cnxS_rtYHg',
+    authDomain: 'hasura-demo-app.firebaseapp.com',
+    databaseURL: 'https://hasura-demo-app.firebaseio.com',
+    projectId: 'hasura-demo-app',
+    storageBucket: 'hasura-demo-app.appspot.com',
+    messagingSenderId: '144704637933',
+  },
 };
 
 /*
