@@ -28,6 +28,7 @@
     "apollo-cache-inmemory": "^1.6.0",
     "apollo-client": "^2.6.0",
     "apollo-link": "^1.2.11",
+    "apollo-link-context": "^1.0.20",
     "firebase": "^7.14.4",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.0",
