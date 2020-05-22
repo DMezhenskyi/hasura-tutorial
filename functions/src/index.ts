@@ -11,5 +11,11 @@ export const Register = functions.auth.user().onCreate((user) => {
       'x-hasura-user-id': user.uid,
     },
   };
-  return admin.auth().setCustomUserClaims(user.uid, customClaims);
+  return admin
+    .auth()
+    .setCustomUserClaims(user.uid, customClaims)
+    .then(() => {
+      const metadataRef = admin.database().ref(`metadata/${user.uid}`);
+      return metadataRef.set({ refreshTime: new Date().getTime() });
+    });
 });
