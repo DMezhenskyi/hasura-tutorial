@@ -1,3 +1,5 @@
+Do not forget to adjust you Firbase configuration according to yours.
+
 # HasuraTutorial
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
