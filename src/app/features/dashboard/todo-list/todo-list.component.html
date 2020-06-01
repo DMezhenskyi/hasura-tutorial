@@ -1,25 +1,31 @@
-<button (click)="onLogout()">logout</button>
-
-<form [formGroup]="form">
-  <mat-form-field class="form-field">
-    <input
-      matInput
-      formControlName="title"
-      type="text"
-      placeholder="Enter title"
-    />
-  </mat-form-field>
-  <mat-form-field class="form-field">
-    <textarea
-      matInput
-      formControlName="description"
-      placeholder="Enter Description..."
-    ></textarea>
-  </mat-form-field>
-  <button [disabled]="form.invalid" mat-stroked-button (click)="onAddTask()">
-    Submit
-  </button>
-</form>
+<button mat-flat-button class="logout-button" (click)="onLogout()">
+  logout
+</button>
+<mat-card class="new-todo-card">
+  <form [formGroup]="form">
+    <h5>New todo</h5>
+    <mat-form-field class="form-field">
+      <input
+        name="task-title"
+        matInput
+        formControlName="title"
+        type="text"
+        placeholder="Enter title"
+      />
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <textarea
+        name="description"
+        matInput
+        formControlName="description"
+        placeholder="Enter Description..."
+      ></textarea>
+    </mat-form-field>
+    <button [disabled]="form.invalid" mat-stroked-button (click)="onAddTask()">
+      Submit
+    </button>
+  </form>
+</mat-card>
 
 <h1>Tasks:</h1>
 <section class="list">
