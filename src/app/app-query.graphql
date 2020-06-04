@@ -10,7 +10,7 @@ query Tasks {
   }
 }
 
-mutation AddTask($authorId: uuid!, $description: String!, $title: name!) {
+mutation AddTask($authorId: String!, $description: String!, $title: name!) {
   insert_tasks(
     objects: { authorId: $authorId, description: $description, title: $title }
   ) {
@@ -23,5 +23,11 @@ mutation AddTask($authorId: uuid!, $description: String!, $title: name!) {
       }
       uuid
     }
+  }
+}
+
+mutation CreateUser($uuid: String!, $fullName: name!) {
+  insert_users(objects: { fullName: $fullName, uuid: $uuid }) {
+    affected_rows
   }
 }

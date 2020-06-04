@@ -1,16 +1,19 @@
 overwrite: true
-schema: "http://localhost:8081/v1/graphql"
-documents: "src/**/*.graphql"
+schema:
+  - http://localhost:8081/v1/graphql:
+      headers:
+        'x-hasura-admin-secret': myadminsecretkey
+documents: 'src/**/*.graphql'
 generates:
   src/generated/graphql.ts:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-apollo-angular"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-apollo-angular'
     config:
-      declarationKind: "interface"
+      declarationKind: 'interface'
       namingConvention:
         transformUnderscore: true
   ./graphql.schema.json:
     plugins:
-      - "introspection"
+      - 'introspection'

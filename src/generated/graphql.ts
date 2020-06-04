@@ -9,8 +9,8 @@ export interface Scalars {
   Boolean: boolean;
   Int: number;
   Float: number;
-  uuid: any;
   name: any;
+  uuid: any;
 }
 
 
@@ -168,7 +168,7 @@ export interface QueryRootUsersAggregateArgs {
 
 /** query root */
 export interface QueryRootUsersByPkArgs {
-  uuid: Scalars['uuid'];
+  uuid: Scalars['String'];
 }
 
 /** expression to compare columns of type String. All fields are combined with logical 'AND'. */
@@ -256,13 +256,13 @@ export interface SubscriptionRootUsersAggregateArgs {
 
 /** subscription root */
 export interface SubscriptionRootUsersByPkArgs {
-  uuid: Scalars['uuid'];
+  uuid: Scalars['String'];
 }
 
 /** columns and relationships of "tasks" */
 export interface Tasks {
    __typename?: 'tasks';
-  authorId: Scalars['uuid'];
+  authorId: Scalars['String'];
   description: Scalars['String'];
   title: Scalars['name'];
   /** An object relationship */
@@ -310,7 +310,7 @@ export interface TasksBoolExp {
   _and?: Maybe<Array<Maybe<TasksBoolExp>>>;
   _not?: Maybe<TasksBoolExp>;
   _or?: Maybe<Array<Maybe<TasksBoolExp>>>;
-  authorId?: Maybe<UuidComparisonExp>;
+  authorId?: Maybe<StringComparisonExp>;
   description?: Maybe<StringComparisonExp>;
   title?: Maybe<NameComparisonExp>;
   user?: Maybe<UsersBoolExp>;
@@ -325,7 +325,7 @@ export enum TasksConstraint {
 
 /** input type for inserting data into table "tasks" */
 export interface TasksInsertInput {
-  authorId?: Maybe<Scalars['uuid']>;
+  authorId?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['name']>;
   user?: Maybe<UsersObjRelInsertInput>;
@@ -335,22 +335,26 @@ export interface TasksInsertInput {
 /** aggregate max on columns */
 export interface TasksMaxFields {
    __typename?: 'tasks_max_fields';
+  authorId?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 }
 
 /** order by max() on columns of table "tasks" */
 export interface TasksMaxOrderBy {
+  authorId?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
 }
 
 /** aggregate min on columns */
 export interface TasksMinFields {
    __typename?: 'tasks_min_fields';
+  authorId?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 }
 
 /** order by min() on columns of table "tasks" */
 export interface TasksMinOrderBy {
+  authorId?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
 }
 
@@ -399,7 +403,7 @@ export enum TasksSelectColumn {
 
 /** input type for updating data in table "tasks" */
 export interface TasksSetInput {
-  authorId?: Maybe<Scalars['uuid']>;
+  authorId?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['name']>;
   uuid?: Maybe<Scalars['uuid']>;
@@ -421,7 +425,7 @@ export enum TasksUpdateColumn {
 export interface Users {
    __typename?: 'users';
   fullName: Scalars['name'];
-  uuid: Scalars['uuid'];
+  uuid: Scalars['String'];
 }
 
 /** aggregated selection of "users" */
@@ -435,6 +439,8 @@ export interface UsersAggregate {
 export interface UsersAggregateFields {
    __typename?: 'users_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
+  max?: Maybe<UsersMaxFields>;
+  min?: Maybe<UsersMinFields>;
 }
 
 
@@ -447,6 +453,8 @@ export interface UsersAggregateFieldsCountArgs {
 /** order by aggregate values of table "users" */
 export interface UsersAggregateOrderBy {
   count?: Maybe<OrderBy>;
+  max?: Maybe<UsersMaxOrderBy>;
+  min?: Maybe<UsersMinOrderBy>;
 }
 
 /** input type for inserting array relation for remote table "users" */
@@ -461,19 +469,43 @@ export interface UsersBoolExp {
   _not?: Maybe<UsersBoolExp>;
   _or?: Maybe<Array<Maybe<UsersBoolExp>>>;
   fullName?: Maybe<NameComparisonExp>;
-  uuid?: Maybe<UuidComparisonExp>;
+  uuid?: Maybe<StringComparisonExp>;
 }
 
 /** unique or primary key constraints on table "users" */
 export enum UsersConstraint {
   /** unique or primary key constraint */
-  UsersPkey = 'users_pkey'
+  UsersPkey = 'users_pkey',
+  /** unique or primary key constraint */
+  UsersUuidKey = 'users_uuid_key'
 }
 
 /** input type for inserting data into table "users" */
 export interface UsersInsertInput {
   fullName?: Maybe<Scalars['name']>;
-  uuid?: Maybe<Scalars['uuid']>;
+  uuid?: Maybe<Scalars['String']>;
+}
+
+/** aggregate max on columns */
+export interface UsersMaxFields {
+   __typename?: 'users_max_fields';
+  uuid?: Maybe<Scalars['String']>;
+}
+
+/** order by max() on columns of table "users" */
+export interface UsersMaxOrderBy {
+  uuid?: Maybe<OrderBy>;
+}
+
+/** aggregate min on columns */
+export interface UsersMinFields {
+   __typename?: 'users_min_fields';
+  uuid?: Maybe<Scalars['String']>;
+}
+
+/** order by min() on columns of table "users" */
+export interface UsersMinOrderBy {
+  uuid?: Maybe<OrderBy>;
 }
 
 /** response of any mutation on the table "users" */
@@ -515,7 +547,7 @@ export enum UsersSelectColumn {
 /** input type for updating data in table "users" */
 export interface UsersSetInput {
   fullName?: Maybe<Scalars['name']>;
-  uuid?: Maybe<Scalars['uuid']>;
+  uuid?: Maybe<Scalars['String']>;
 }
 
 /** update columns of table "users" */
@@ -556,7 +588,7 @@ export type TasksQuery = (
 );
 
 export type AddTaskMutationVariables = {
-  authorId: Scalars['uuid'];
+  authorId: Scalars['String'];
   description: Scalars['String'];
   title: Scalars['name'];
 };
@@ -574,6 +606,20 @@ export type AddTaskMutation = (
         & Pick<Users, 'fullName' | 'uuid'>
       ) }
     )> }
+  )> }
+);
+
+export type CreateUserMutationVariables = {
+  uuid: Scalars['String'];
+  fullName: Scalars['name'];
+};
+
+
+export type CreateUserMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_users?: Maybe<(
+    { __typename?: 'users_mutation_response' }
+    & Pick<UsersMutationResponse, 'affected_rows'>
   )> }
 );
 
@@ -599,7 +645,7 @@ export const TasksDocument = gql`
     
   }
 export const AddTaskDocument = gql`
-    mutation AddTask($authorId: uuid!, $description: String!, $title: name!) {
+    mutation AddTask($authorId: String!, $description: String!, $title: name!) {
   insert_tasks(objects: {authorId: $authorId, description: $description, title: $title}) {
     returning {
       description
@@ -619,5 +665,20 @@ export const AddTaskDocument = gql`
   })
   export class AddTaskGQL extends Apollo.Mutation<AddTaskMutation, AddTaskMutationVariables> {
     document = AddTaskDocument;
+    
+  }
+export const CreateUserDocument = gql`
+    mutation CreateUser($uuid: String!, $fullName: name!) {
+  insert_users(objects: {fullName: $fullName, uuid: $uuid}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
+    document = CreateUserDocument;
     
   }

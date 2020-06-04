@@ -1,5 +1,9 @@
 <form class="form" [formGroup]="registerForm">
   <mat-form-field class="form-control">
+    <mat-label>Your Full Name</mat-label>
+    <input matInput formControlName="fullName" type="text" />
+  </mat-form-field>
+  <mat-form-field class="form-control">
     <mat-label>Your email</mat-label>
     <input matInput formControlName="email" type="text" />
   </mat-form-field>

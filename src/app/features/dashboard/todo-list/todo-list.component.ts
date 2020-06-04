@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import {
   FormGroup,
   FormBuilder,
@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { TasksGQL, AddTaskGQL, TasksQuery } from 'src/generated/graphql';
 import { QueryRef } from 'apollo-angular';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
@@ -34,10 +34,6 @@ export class TodoListComponent implements OnInit {
     this.form = this.fb.group({
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      authorId: new FormControl(
-        '0df9d120-9c4a-4dd6-979d-1fcbd32dc8a5',
-        Validators.required
-      ),
     });
     this.queryRef = this.tasksGQL.watch();
     this.tasks$ = this.queryRef.valueChanges.pipe(
@@ -46,14 +42,20 @@ export class TodoListComponent implements OnInit {
   }
 
   onAddTask() {
-    this.addTaskGQL.mutate(this.form.value).subscribe(
-      () => {
-        this.form.controls.title.reset('');
-        this.form.controls.description.reset('');
-        this.queryRef.refetch();
-      },
-      (error) => console.error('Error: ', error)
-    );
+    from(this.auth.currentUser)
+      .pipe(
+        switchMap(({ uid: authorId }) =>
+          this.addTaskGQL.mutate({ ...this.form.value, authorId })
+        )
+      )
+      .subscribe(
+        () => {
+          this.form.controls.title.reset('');
+          this.form.controls.description.reset('');
+          this.queryRef.refetch();
+        },
+        (error) => console.error('Error: ', error)
+      );
   }
 
   onLogout() {
