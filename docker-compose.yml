@@ -1,4 +1,4 @@
-version: "3.6"
+version: '3.6'
 services:
   postgres:
     image: postgres:12
@@ -8,15 +8,18 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
-    image: hasura/graphql-engine:v1.1.1
+    image: hasura/graphql-engine:v1.2.2.cli-migrations-v2
+    volumes:
+      - ./migrations:/hasura-migrations
+      - ./metadata:/hasura-metadata
     container_name: hasura_totorial
     ports:
-      - "8081:8080"
+      - '8081:8080'
     depends_on:
-      - "postgres"
+      - 'postgres'
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true' # set to "false" to disable console
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_JWT_SECRET: '{"type":"RS256","jwk_url": "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", "audience": "hasura-demo-app", "issuer": "https://securetoken.google.com/hasura-demo-app"}'
       ## uncomment next line to set an admin secret

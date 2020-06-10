@@ -1,0 +1,43 @@
+- table:
+    schema: public
+    name: tasks
+  object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: authorId
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - authorId
+      - description
+      - isCompleted
+      - title
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - authorId
+      - description
+      - isCompleted
+      - title
+      - uuid
+      filter: {}
+- table:
+    schema: public
+    name: users
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - fullName
+      - uuid
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uuid
+      - fullName
+      filter: {}
