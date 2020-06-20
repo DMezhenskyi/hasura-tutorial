@@ -7,6 +7,8 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
+import { auth } from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-login-form',
@@ -33,6 +35,12 @@ export class LoginFormComponent implements OnInit {
     const { email, password } = this.loginForm.value;
     this.auth
       .signInWithEmailAndPassword(email, password)
+      .then(() => this.router.navigate(['']));
+  }
+
+  onLoginWithGoogle() {
+    this.auth
+      .signInWithPopup(new auth.GoogleAuthProvider())
       .then(() => this.router.navigate(['']));
   }
 }

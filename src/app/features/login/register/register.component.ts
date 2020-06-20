@@ -11,6 +11,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { switchMap, first, mapTo, take } from 'rxjs/operators';
+import { auth } from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-register',
@@ -46,6 +48,19 @@ export class RegisterComponent implements OnInit {
         take(1),
         switchMap((user) => from(user.getIdToken(true)).pipe(mapTo(user))),
         switchMap(({ uid: uuid }) =>
+          this.createUserGql.mutate({ uuid, fullName })
+        )
+      )
+      .subscribe(() => this.router.navigate(['']), console.error);
+  }
+
+  createUserViaGoogle() {
+    from(this.auth.signInWithPopup(new auth.GoogleAuthProvider()))
+      .pipe(
+        switchMap(({ user }) => this.metadataCreateWatcher(user)),
+        take(1),
+        switchMap((user) => from(user.getIdToken(true)).pipe(mapTo(user))),
+        switchMap(({ uid: uuid, displayName: fullName }) =>
           this.createUserGql.mutate({ uuid, fullName })
         )
       )
