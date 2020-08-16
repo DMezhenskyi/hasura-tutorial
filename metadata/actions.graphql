@@ -1,2 +1,30 @@
+type Mutation {
+  buyit (
+    arg1: SampleInput!
+  ): StripeResponse
+}
 
+
+type Query {
+  getUser (
+    uuid: String!
+  ): UserProfile
+}
+
+
+
+
+input SampleInput {
+  itemId : String!
+}
+
+type StripeResponse {
+  field1 : String!
+}
+
+type UserProfile {
+  uuid : String!
+  firstName : String!
+  lastName : String!
+}
 

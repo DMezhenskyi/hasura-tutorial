@@ -1,6 +1,34 @@
-actions: []
+actions:
+- name: buyit
+  definition:
+    kind: synchronous
+    handler: http://host.docker.internal:3000/buyit
+- name: getUser
+  definition:
+    kind: ""
+    handler: http://host.docker.internal:3000/getUser
+  permissions:
+  - role: user
 custom_types:
   enums: []
-  input_objects: []
-  objects: []
+  input_objects:
+  - name: SampleInput
+  objects:
+  - name: StripeResponse
+  - name: UserProfile
+    relationships:
+    - remote_table:
+        schema: public
+        name: users
+      name: testUser
+      type: object
+      field_mapping:
+        uuid: uuid
+    - remote_table:
+        schema: public
+        name: tasks
+      name: userTasks
+      type: array
+      field_mapping:
+        uuid: authorId
   scalars: []
