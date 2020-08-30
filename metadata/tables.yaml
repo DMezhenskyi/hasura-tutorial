@@ -1,10 +1,20 @@
 - table:
     schema: public
-    name: orders
+    name: task_status
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
 - table:
     schema: public
     name: tasks
   object_relationships:
+  - name: taskStatus
+    using:
+      foreign_key_constraint_on: status_id
   - name: user
     using:
       foreign_key_constraint_on: authorId
@@ -24,6 +34,7 @@
       - authorId
       - description
       - isCompleted
+      - status_id
       - title
       - uuid
       filter: {}

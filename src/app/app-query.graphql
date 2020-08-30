@@ -3,6 +3,10 @@ query Tasks {
     uuid
     title
     description
+    taskStatus {
+      id
+      name
+    }
     user {
       fullName
       uuid
